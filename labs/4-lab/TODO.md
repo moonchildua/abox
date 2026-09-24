@@ -17,3 +17,4 @@ Flux Kustomization releases controll. every 2 min kustomize-controller does serv
 workaround:
 kubectl annotate agent k8s-agent -n kagent kustomize.toolkit.fluxcd.io/reconcile=disabled --overwrite
 kubectl -n kagent annotate agent retrieval-agent kustomize.toolkit.fluxcd.io/reconcile=disabled --overwrite
+kubectl -n kagent annotate agent promql-agent kustomize.toolkit.fluxcd.io/reconcile=disabled --overwrite

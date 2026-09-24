@@ -11,5 +11,7 @@ export LLAMA_CACHE="$HOME/models"
 
 run llama with needed model
 ```
-llama serve -hf nomic-ai/nomic-embed-text-v1.5-GGUF:Q8_0 --embedding
+llama serve -hf nomic-ai/nomic-embed-text-v1.5-GGUF:Q8_0 --embedding --port 8080
+llama serve -hf ggml-org/embeddinggemma-300M-GGUF:Q8_0 --embedding --port 8081
+llama serve -hf Qwen/Qwen3-Embedding-0.6B-GGUF:Q8_0 --embedding --pooling last -ub 8192 --port 8082
 ```
