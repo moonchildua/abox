@@ -1,0 +1,59 @@
+apiVersion: kagent.dev/v1alpha1
+kind: MCPServer
+metadata:
+  creationTimestamp: "2026-09-24T07:29:16Z"
+  generation: 1
+  labels:
+    kustomize.toolkit.fluxcd.io/name: releases
+    kustomize.toolkit.fluxcd.io/namespace: flux-system
+  name: qdrant-mcp
+  namespace: kagent
+  resourceVersion: "3218"
+  uid: f00e867e-10e6-4a37-9c99-ea7450e37fdc
+spec:
+  deployment:
+    cmd: /app/server
+    env:
+      EMBEDDINGS_BASE_URL: http://llama-cpp-embeddings.llama-cpp:8090
+      QDRANT_COLLECTION: abox-nomic
+      QDRANT_URL: http://qdrant.qdrant:6333
+    image: ghcr.io/den-vasyliev/abox/qdrant-mcp:0.4.0
+    port: 3000
+    replicas: 1
+    resources:
+      limits:
+        cpu: 500m
+        memory: 256Mi
+      requests:
+        cpu: 25m
+        memory: 32Mi
+  stdioTransport: {}
+  timeout: 30s
+  transportType: stdio
+status:
+  conditions:
+  - lastTransitionTime: "2026-09-24T07:29:53Z"
+    message: MCPServer configuration is valid
+    observedGeneration: 1
+    reason: Accepted
+    status: "True"
+    type: Accepted
+  - lastTransitionTime: "2026-09-24T07:29:53Z"
+    message: All references resolved successfully
+    observedGeneration: 1
+    reason: ResolvedRefs
+    status: "True"
+    type: ResolvedRefs
+  - lastTransitionTime: "2026-09-24T07:29:53Z"
+    message: All resources created successfully
+    observedGeneration: 1
+    reason: Programmed
+    status: "True"
+    type: Programmed
+  - lastTransitionTime: "2026-09-24T07:30:54Z"
+    message: Deployment is ready and all pods are running
+    observedGeneration: 1
+    reason: Available
+    status: "True"
+    type: Ready
+  observedGeneration: 1

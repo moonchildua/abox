@@ -1,0 +1,34 @@
+# The official Qdrant MCP server, github.com/qdrant/mcp-server-qdrant.
+#
+# diference
+#   qdrant-mcp           nomic-embed-text-v1.5, 768 dims, embeds out-of-process
+#                        against llama-cpp-embeddings, collection abox-nomic
+#   qdrant-mcp-official  all-MiniLM-L6-v2, 384 dims, embeds in-process with
+#                        fastembed, collection abox-minilm
+
+---
+apiVersion: kagent.dev/v1alpha1
+kind: MCPServer
+metadata:
+  name: qdrant-mcp-official
+  namespace: kagent
+spec:
+  transportType: stdio
+  stdioTransport: {}
+  deployment:
+    image: docker.io/library/mcp-server-qdrant:local
+    imagePullPolicy: IfNotPresent
+    cmd: mcp-server-qdrant
+    env:
+      QDRANT_URL: http://qdrant.qdrant:6333
+      COLLECTION_NAME: abox-minilm
+      EMBEDDING_PROVIDER: fastembed
+      EMBEDDING_MODEL: sentence-transformers/all-MiniLM-L6-v2
+      QDRANT_SEARCH_LIMIT: "5"
+    resources:
+      requests:
+        cpu: 100m
+        memory: 512Mi
+      limits:
+        cpu: "1"
+        memory: 2Gi
