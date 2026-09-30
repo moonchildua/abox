@@ -32,6 +32,27 @@ spec:
     # The cluster routes through the agentgateway Gateway, not an Ingress.
     ingress:
       enabled: false
+    # Left empty the chart fills every key with `randAlphaNum 32`, which is a
+    # fresh roll on each render. Phoenix validates PHOENIX_SECRET and
+    # PHOENIX_ADMIN_SECRET at boot (32+ chars, upper, lower, digit) and a roll
+    # with no digit lands ~0.4% of the time, after which the pod crashloops:
+    #
+    #   ValueError: Phoenix secret at least one digit
+    #
+    # Pinning also stops the secret changing on every helm upgrade, which would
+    # otherwise invalidate every issued token. Same reasoning as neo4j's
+    # password: local sandbox, no secret management. The remaining keys keep
+    # the chart defaults (postgres password must match database.postgres).
+    auth:
+      secret:
+        - key: PHOENIX_SECRET
+          value: "abox-phoenix-secret-0123456789-ABCDEFGHIJ"
+        - key: PHOENIX_ADMIN_SECRET
+          value: "abox-phoenix-admin-0123456789-ABCDEFGHIJ"
+        - key: PHOENIX_POSTGRES_PASSWORD
+          value: "postgres"
+        - key: PHOENIX_SMTP_PASSWORD
+          value: ""
     # The chart's startup probe allows 31s (periodSeconds 1 x failureThreshold
     # 30). Phoenix runs Alembic migrations against Postgres on first boot, which
     # takes longer than that on KinD, so the probe kills the container before it
