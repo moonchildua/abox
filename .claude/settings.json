@@ -3,5 +3,6 @@
     "allow": [
       "Bash(kubectl logs *)"
     ]
-  }
+  },
+  "includeCoAuthoredBy": false
 }
